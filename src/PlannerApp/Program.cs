@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
+using PlaneerApp.Client.Services;
+//using PlaneerApp.Client.Services.Interfaces;
 using PlannerApp;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -31,6 +33,7 @@ builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 
+builder.Services.AddHttpClientServices();
 
 builder.Services.AddMudServices();
 await builder.Build().RunAsync();
