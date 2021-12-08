@@ -2,12 +2,9 @@
 using PlaneerApp.Client.Services.Exceptions;
 using PlaneerApp.Client.Services.Interfaces;
 using PlannerApp.Shared.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace PlannerApp.Components {
+namespace PlannerApp.Components
+{
     public partial class RegisterForm     {
         [Inject]
         public IAuthenticationService AuthenticationService { get; set; }
