@@ -1,5 +1,17 @@
-﻿<h3>PlansList</h3>
+﻿@namespace PlannerApp.Components
 
-@code {
+@*UI View Selector *@
+<MudIconButton Icon="@Icons.Material.Filled.GridView" Color="Color.Primary" Disabled="_isCardsViewEnabled" OnClick="SetCardsView"></MudIconButton>
+<MudIconButton Icon="@Icons.Material.Filled.TableView" Color="Color.Primary" Disabled="@(!_isCardsViewEnabled)" OnClick="SetTableView"></MudIconButton>
 
+<div class="mt-4" />
+
+@if (_isCardsViewEnabled) {
+    <PlanCardsList FetchPlans="GetPlansAsync" 
+                   OnEditClicked="EditPlan" 
+                   OnDeleteClicked="DeletePlanAsync"/>
+}
+else {
+    <PlansTable OnEditClicked="EditPlan" 
+                OnDeleteClicked="DeletePlanAsync" />
 }
