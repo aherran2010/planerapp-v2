@@ -21,7 +21,7 @@ using Blazored.FluentValidation;
 using PlaneerApp.Client.Services.Interfaces;
 using PlaneerApp.Client.Services.Exceptions;
 using PlannerApp.Shared.Models;
-using AKSoftware.Blazor.Utilities;
+//using AKSoftware.Blazor.Utilities;
 
 namespace PlannerApp.Components
 {
@@ -74,13 +74,11 @@ namespace PlannerApp.Components
         #region View Toggler
         private bool _isCardsViewEnabled = true;
 
-        private void SetCardsView()
-        {
+        private void SetCardsView()   {
             _isCardsViewEnabled = true;
         }
 
-        private void SetTableView()
-        {
+        private void SetTableView()   {
             _isCardsViewEnabled = false;
         }
 
@@ -103,29 +101,29 @@ namespace PlannerApp.Components
 
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-            var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
-            var confirmationResult = await dialog.Result;
+            //var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
+            //var confirmationResult = await dialog.Result;
 
-            if (!confirmationResult.Cancelled)
-            {
-                // Confirmed to delete
-                try
-                {
-                    await PlansService.DeleteAsync(plan.Id);
+            //if (!confirmationResult.Cancelled)
+            //{
+            //    // Confirmed to delete
+            //    try
+            //    {
+            //        await PlansService.DeleteAsync(plan.Id);
 
-                    // Send a message about the deleted plan
-                    MessagingCenter.Send(this, "plan_deleted", plan);
-                }
-                catch (ApiException ex)
-                {
-                    // TODO: Log this error 
-                }
-                catch (Exception ex)
-                {
-                    // TODO: Log this error 
-                }
+            //        // Send a message about the deleted plan
+            //        MessagingCenter.Send(this, "plan_deleted", plan);
+            //    }
+            //    catch (ApiException ex)
+            //    {
+            //        // TODO: Log this error 
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // TODO: Log this error 
+            //    }
 
-            }
+            //}
         }
         #endregion 
 
