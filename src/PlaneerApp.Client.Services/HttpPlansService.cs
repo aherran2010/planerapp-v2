@@ -58,11 +58,20 @@ namespace PlaneerApp.Client.Services
             throw new NotImplementedException();
         }
 
-        
-
-        public Task<ApiResponse<PlanDetail>> GetByIdAsync(string id)
+        public async Task<ApiResponse<PlanDetail>> GetByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync($"/api/v2/plans/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ApiResponse<PlanDetail>>();
+                return result;
+            }
+            else
+            {
+                var errorResponse = await response.Content.ReadFromJsonAsync<ApiErrorResponse>();
+                throw new ApiException(errorResponse, response.StatusCode);
+            }
+
         }
 
         public async Task<ApiResponse<PagedList<PlanSummary>>> GetPlansAsync(string query = null, int pageNumber = 1, int pageSize = 10)
