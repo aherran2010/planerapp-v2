@@ -69,6 +69,7 @@ namespace PlannerApp.Components
             _isBusy = false;
         }
 
+        //Obsoleto
         //private void EditPlan(PlanSummary plan)
         //{
         //    Navigation.NavigateTo($"/plans/form/{plan.Id}");

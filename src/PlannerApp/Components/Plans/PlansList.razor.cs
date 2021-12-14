@@ -92,8 +92,7 @@ namespace PlannerApp.Components
         #endregion
 
         #region Delete
-        private async Task DeletePlanAsync(PlanSummary plan)
-        {
+        private async Task DeletePlanAsync(PlanSummary plan)    {
             var parameters = new DialogParameters();
             parameters.Add("ContentText", $"Do you really want to delete the plan '{plan.Title}'?");
             parameters.Add("ButtonText", "Delete");
@@ -101,29 +100,26 @@ namespace PlannerApp.Components
 
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-            //var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
-            //var confirmationResult = await dialog.Result;
+            var dialog = DialogService.Show<ConfirmationDialog>("Delete", parameters, options);
+            var confirmationResult = await dialog.Result;
 
-            //if (!confirmationResult.Cancelled)
-            //{
-            //    // Confirmed to delete
-            //    try
-            //    {
-            //        await PlansService.DeleteAsync(plan.Id);
+            if (!confirmationResult.Cancelled)    {
+                // Confirmed to delete
+                try
+                {
+                    await PlansService.DeleteAsync(plan.Id);
 
-            //        // Send a message about the deleted plan
-            //        MessagingCenter.Send(this, "plan_deleted", plan);
-            //    }
-            //    catch (ApiException ex)
-            //    {
-            //        // TODO: Log this error 
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        // TODO: Log this error 
-            //    }
+                    // Send a message about the deleted plan
+                    MessagingCenter.Send(this, "plan_deleted", plan);
+                }
+                catch (ApiException ex)   {
+                    // TODO: Log this error 
+                }
+                catch (Exception ex)      {
+                    // TODO: Log this error 
+                }
 
-            //}
+            }
         }
         #endregion 
 
