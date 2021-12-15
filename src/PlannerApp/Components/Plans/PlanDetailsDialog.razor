@@ -1,20 +1,40 @@
-﻿@namespace PlanApp.Components
-
+﻿@namespace PlannerApp.Components
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
-            Plan Details
+            @if (_isBusy){
+                <text>Loading Plan Details ...</text>
+           }
+            else  {
+                <text>@_plan?.Title</text>
+           }
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField Value="@server.Id.ToString()" Label="Server ID" ReadOnly="true"/>
-        <MudTextField Value="@server.Name" Label="Server Name" ReadOnly="true"/>
-        <MudTextField Value="@server.Location" Label="Location" ReadOnly="true"/>
-        <MudTextField Value="@server.IpAddress" Label="IP Address" ReadOnly="true"/>
+        <MudGrid>
+            <MudItem sm="12" md="6">
+                <!-- Utilizar un skeleton mientras aun está cargando -->
+                @if (_isBusy)  {
+                    <MudSkeleton Animation="Animation.Wave" SkeletonType="SkeletonType.Text" Style="min-width:250px"/>
+                    <MudSkeleton Animation="Animation.Wave" SkeletonType="SkeletonType.Text" Style="min-width:250px"/>
+                    <MudSkeleton Animation="Animation.Wave" SkeletonType="SkeletonType.Text" Style="min-width:250px"/>
+                    <MudSkeleton Animation="Animation.Wave" SkeletonType="SkeletonType.Text" Style="min-width:250px"/>
+                    <MudSkeleton Animation="Animation.Wave" SkeletonType="SkeletonType.Text" Style="min-width:250px"/>
+                }
+                else  {
+                    <!-- Plan details obsoleto -->
+                    <img style="width:100%;border-radius:5px" src="@_plan.CoverUrl" />
+                    <MudText Typo="Typo.h5">@_plan?.Title</MudText>
+                    <MudText Typo="Typo.body1">@_plan?.Description</MudText>
+                    <MudText Typo="Typo.body1">@_plan?.Description</MudText>                    
+                }
+            </MudItem>
+            <MudItem sm="12" md="6">
+                <!-- Items go here -->
+            </MudItem>
+        </MudGrid>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Error" OnClick="DeleteServer">Delete Server</MudButton>
+        <MudButton OnClick="Close">Close</MudButton>
     </DialogActions>
 </MudDialog>
-
