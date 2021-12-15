@@ -21,12 +21,11 @@ using Blazored.FluentValidation;
 using PlaneerApp.Client.Services.Interfaces;
 using PlaneerApp.Client.Services.Exceptions;
 using PlannerApp.Shared.Models;
-//using AKSoftware.Blazor.Utilities;
+using AKSoftware.Blazor.Utilities;
 
 namespace PlannerApp.Components
 {
-    public partial class PlansList
-    {
+    public partial class PlansList     {
 
         [Inject]
         public IPlansService PlansService { get; set; }
@@ -49,8 +48,7 @@ namespace PlannerApp.Components
         private async Task<PagedList<PlanSummary>> GetPlansAsync(string query = "", int pageNumber = 1, int pageSize = 10)
         {
             _isBusy = true;
-            try
-            {
+            try  {
                 var result = await PlansService.GetPlansAsync(query, pageNumber, pageSize);
                 _plans = result.Value.Records.ToList();
                 _pageNumber = result.Value.Page;
@@ -58,12 +56,10 @@ namespace PlannerApp.Components
                 _totalPages = result.Value.TotalPages;
                 return result.Value;
             }
-            catch (ApiException ex)
-            {
+            catch (ApiException ex)    {
                 _errorMessage = ex.ApiErrorResponse.Message;
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex)       {
                 // TODO: Log this error 
                 _errorMessage = ex.Message;
             }
@@ -85,8 +81,7 @@ namespace PlannerApp.Components
         #endregion
 
         #region Edit
-        private void EditPlan(PlanSummary plan)
-        {
+        private void EditPlan(PlanSummary plan)     {
             Navigation.NavigateTo($"/plans/form/{plan.Id}");
         }
         #endregion

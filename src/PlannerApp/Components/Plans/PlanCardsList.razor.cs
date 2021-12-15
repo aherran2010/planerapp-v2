@@ -20,7 +20,7 @@ using MudBlazor;
 using Blazored.FluentValidation;
 using PlannerApp.Shared.Models;
 using System.IO;
-//using AKSoftware.Blazor.Utilities;
+using AKSoftware.Blazor.Utilities;
 
 namespace PlannerApp.Components
 {
@@ -47,22 +47,19 @@ namespace PlannerApp.Components
 
         private PagedList<PlanSummary> _result = new();
 
-        protected override void OnInitialized()
-        {
-            //MessagingCenter.Subscribe<PlansList, PlanSummary>(this, "plan_deleted", async (sender, args) =>
-            //{
-            //    await GetPlansAsync(_pageNumber);
-            //    StateHasChanged();
-            //});
+        protected override void OnInitialized()     {
+            MessagingCenter.Subscribe<PlansList, PlanSummary>(this, "plan_deleted", async (sender, args) =>
+            {
+                await GetPlansAsync(_pageNumber);
+                StateHasChanged();
+            });
         }
 
-        protected async override Task OnInitializedAsync()
-        {
+        protected async override Task OnInitializedAsync()      {
             await GetPlansAsync();
         }
 
-        private async Task GetPlansAsync(int pageNumber = 1)
-        {
+        private async Task GetPlansAsync(int pageNumber = 1)      {
             _pageNumber = pageNumber;
             _isBusy = true;
             _result = await FetchPlans?.Invoke(_query, _pageNumber, _pageSize);
