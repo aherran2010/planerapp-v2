@@ -1,15 +1,14 @@
 ﻿@namespace PlannerApp.Components
 <MudDialog>
-    <TitleContent>
-        <MudText Typo="Typo.h6">
-            @if (_isBusy){
-                <text>Loading Plan Details ...</text>
-           }
-            else  {
-                <text>@_plan?.Title</text>
-           }
-        </MudText>
-    </TitleContent>
+   <TitleContent>
+			@if (_isBusy)	{
+					<MudText Typo="Typo.h6">Loading plan details ... </MudText>
+			}
+			else	{
+					<MudText Typo="Typo.h6">_plan?.Title</MudText>
+			}
+	
+	</TitleContent>
     <DialogContent>
         <MudGrid>
             <MudItem sm="12" md="6">
@@ -23,14 +22,19 @@
                 }
                 else  {
                     <!-- Plan details obsoleto -->
-                    <img style="width:100%;border-radius:5px" src="@_plan.CoverUrl" />
+@*                    <img style="width:100%;border-radius:5px" src="@_plan.CoverUrl" />
                     <MudText Typo="Typo.h5">@_plan?.Title</MudText>
                     <MudText Typo="Typo.body1">@_plan?.Description</MudText>
                     <MudText Typo="Typo.body1">@_plan?.Description</MudText>                    
+*@                
+                    <!-- Plan's items go here -->
+                    // OnToDoItemAddedCallback devolución del elemento agregado para que se acabe de procesar en el padre
+                    // que es donde estamos
+					<CreateToDoItemForm PlanId="@PlanId" OnToDoItemAdded="OnToDoItemAddedCallback" />
+					@foreach(var item in _items) 	{
+						<ToDoItem Item="item" OnItemDeleted="OnToDoItemDeletedCallback" />
+					}                
                 }
-            </MudItem>
-            <MudItem sm="12" md="6">
-                <!-- Items go here -->
             </MudItem>
         </MudGrid>
     </DialogContent>

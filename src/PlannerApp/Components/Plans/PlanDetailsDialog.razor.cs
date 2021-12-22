@@ -1,64 +1,83 @@
-﻿using Blazored.FluentValidation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using System.Net.Http;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.JSInterop;
+using PlannerApp;
+using PlannerApp.Shared;
+using PlannerApp.Components;
 using MudBlazor;
-using PlaneerApp.Client.Services.Exceptions;
+using Blazored.FluentValidation;
 using PlaneerApp.Client.Services.Interfaces;
 using PlannerApp.Shared.Models;
-using System.Reflection.Metadata;
+using PlaneerApp.Client.Services.Exceptions;
 
 namespace PlannerApp.Components
 {
     public partial class PlanDetailsDialog
     {
+
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
         [Inject]
         public IPlansService PlansService { get; set; }
 
-        //parametro utilizado para recuperar el plan
         [Parameter]
         public string PlanId { get; set; }
 
         private PlanDetail _plan;
         private bool _isBusy;
         private string _errorMessage = string.Empty;
-
-        private void Close()  {
+        private List<ToDoItemDetail> _items = new();
+        private void Close()     {
             MudDialog.Cancel();
         }
 
-        //OnParametersSet y OnParametersSetAsync: son ejecutados cuando el componente ha recbido todos los parámetros y sus valores han sido asignado
-        //a sus respectivas propiedades, aunque esto de tener los parámetros asignados ocurre también en la etapa de inicialización,
-        //los métodos OnParametersSet se ejecutan cada vez que se actualizan los parámetros a diferencia de los métodos OnInitialized
-        //que se ejecutan 1 única vez.
-        protected override void OnParametersSet()
-        {
-            //verificar la identificación del plan
+        protected override void OnParametersSet()    {
             if (PlanId == null)
                 throw new ArgumentNullException(nameof(PlanId));
+
             base.OnParametersSet();
         }
 
-        protected async override Task OnInitializedAsync()
-        {
+        protected async override Task OnInitializedAsync()   {
             await FetchPlanAsync();
         }
-        private async Task FetchPlanAsync()   {
+
+        private async Task FetchPlanAsync()     {
             _isBusy = true;
-            try  {
+            try      {
                 var result = await PlansService.GetByIdAsync(PlanId);
                 _plan = result.Value;
+                _items = _plan.ToDoItems;
                 StateHasChanged();
             }
-            catch (ApiException ex)  {
-                //todo
+            catch (ApiException ex)       {
+                // TODO 
             }
             catch (Exception ex)     {
-                //todo: Log this error                
+                // TODO: Log this error 
             }
             _isBusy = false;
         }
-    }      
-    
+
+        private void OnToDoItemAddedCallback(ToDoItemDetail todoItem)   {
+            _items.Add(todoItem);
+        }
+
+        private void OnToDoItemDeletedCallback(ToDoItemDetail todoItem)   {
+            _items.Remove(todoItem);
+        }
+    }
 }

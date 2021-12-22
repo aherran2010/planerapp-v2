@@ -23,8 +23,7 @@ using PlaneerApp.Client.Services.Exceptions;
 using PlannerApp.Shared.Models;
 using AKSoftware.Blazor.Utilities;
 
-namespace PlannerApp.Components
-{
+namespace PlannerApp.Components  {
     public partial class PlansList     {
 
         [Inject]

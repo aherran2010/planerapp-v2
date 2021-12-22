@@ -9,8 +9,7 @@
 
 <MudDivider Class="my-4"/>
 
-@if (_isBusy)
-{
+@if (_isBusy) {
     <MudGrid Spacing="2">
         <MudItem sm="12" md="4" lg="3">
            <PlanCard IsBusy="true"/>
@@ -38,13 +37,10 @@
         </MudItem>
     </MudGrid>
 }
-else
-{
+else {
     <MudGrid Spacing="2">
-        @if (_result != null && _result.Records != null)
-        {
-            foreach (var plan in _result.Records)
-            {
+        @if (_result != null && _result.Records != null)    {
+            foreach (var plan in _result.Records)     {
                 <MudItem sm="12" md="4" lg="3">
                     <PlanCard PlanSummary="plan" 
                               OnEditClicked="() => OnEditClicked.InvokeAsync(plan)"
@@ -58,8 +54,7 @@ else
 }
 
 <div class="d-flex justify-center py-2 px-1 mt-6">
-    @for(int i = 1;i <= _result.TotalPages; i++)
-    {
+    @for(int i = 1;i <= _result.TotalPages; i++)    {
         int index = i;
         <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mr-1" 
                    OnClick="async () => await GetPlansAsync(index)" Disabled="@(_pageNumber == index)">@index</MudButton>
