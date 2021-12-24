@@ -40,44 +40,59 @@ namespace PlannerApp.Components
         private bool _isBusy;
         private string _errorMessage = string.Empty;
         private List<ToDoItemDetail> _items = new();
-        private void Close()     {
+        private void Close()
+        {
             MudDialog.Cancel();
         }
 
-        protected override void OnParametersSet()    {
+        protected override void OnParametersSet()
+        {
             if (PlanId == null)
                 throw new ArgumentNullException(nameof(PlanId));
 
             base.OnParametersSet();
         }
 
-        protected async override Task OnInitializedAsync()   {
+        protected async override Task OnInitializedAsync()
+        {
             await FetchPlanAsync();
         }
 
-        private async Task FetchPlanAsync()     {
+        private async Task FetchPlanAsync()
+        {
             _isBusy = true;
-            try      {
+            try
+            {
                 var result = await PlansService.GetByIdAsync(PlanId);
                 _plan = result.Value;
                 _items = _plan.ToDoItems;
                 StateHasChanged();
             }
-            catch (ApiException ex)       {
+            catch (ApiException ex)
+            {
                 // TODO 
             }
-            catch (Exception ex)     {
+            catch (Exception ex)
+            {
                 // TODO: Log this error 
             }
             _isBusy = false;
         }
 
-        private void OnToDoItemAddedCallback(ToDoItemDetail todoItem)   {
+        private void OnToDoItemAddedCallback(ToDoItemDetail todoItem)    {
             _items.Add(todoItem);
         }
 
-        private void OnToDoItemDeletedCallback(ToDoItemDetail todoItem)   {
+        private void OnToDoItemEditedCallback(ToDoItemDetail todoItem)   {
+            //de momento solo estamos actualizando la descripción
+            var editedItem = _items.SingleOrDefault(i => i.Id == todoItem.Id);
+            editedItem.Description = todoItem.Description;
+            editedItem.IsDone = todoItem.IsDone;
+        }
+
+        private void OnToDoItemDeletedCallback(ToDoItemDetail todoItem)    {
             _items.Remove(todoItem);
         }
+
     }
 }

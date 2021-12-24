@@ -22,8 +22,10 @@ using PlaneerApp.Client.Services.Interfaces;
 using PlaneerApp.Client.Services.Exceptions;
 using PlannerApp.Shared.Models;
 
-namespace PlannerApp.Components {
-    public partial class CreateToDoItemForm     {
+namespace PlannerApp.Components
+{
+    public partial class CreateToDoItemForm
+    {
 
         [Inject]
         public IToDoItemsService ToDoItemsService { get; set; }
@@ -38,10 +40,13 @@ namespace PlannerApp.Components {
         private string _description { get; set; }
         private string _errorMessage = string.Empty;
 
-        private async Task AddToItemAsync()     {
+        private async Task AddToItemAsync()
+        {
             _errorMessage = string.Empty;
-            try      {
-                if (string.IsNullOrWhiteSpace(_description))    {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(_description))
+                {
                     _errorMessage = "Description is required";
                     return;
                 }
@@ -54,13 +59,18 @@ namespace PlannerApp.Components {
                 // Notify the parent about the newly added item 
                 await OnToDoItemAdded.InvokeAsync(result.Value);
             }
-            catch (ApiException ex)   {
+            catch (ApiException ex)
+            {
                 _errorMessage = ex.Message;
             }
-            catch (Exception ex)     {
+            catch (Exception ex)
+            {
                 // TODO: Handle errors globally 
             }
             _isBusy = false;
         }
+
+
+
     }
 }

@@ -27,6 +27,8 @@ builder.Services.AddTransient<AuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("PlannerApp.Api"));
 
+builder.Services.AddMudServices();
+
 builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddAuthorizationCore();
@@ -35,5 +37,4 @@ builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStatePr
 
 builder.Services.AddHttpClientServices();
 
-builder.Services.AddMudServices();
 await builder.Build().RunAsync();
